@@ -92,50 +92,96 @@ carta mazo[5][25]={
 };
 
 struct registro{
-
     string nombre;
     int victorias = 0;
-
 };
 
-carta jugadores[4][100]={};
-void repartir_cartas(carta mazo[5][25], int njugadores){
-    for(int i=0; i<njugadores; i++){
-        for(int o=0; o<7; o++){
-            
-                int fila = rand() % 5;
-                if(fila == 4){
-                    int col = rand() % 8;
-                    jugadores[i][o]=mazo[fila][col];
-                    
+struct cartajugadores{
+    int filamazo = 0;
+    int colmazo = 0;
+};
 
-                }else{
-                    int col = rand() % 25;
-                    jugadores[i][o]=mazo[fila][col];
-                    
-                }
-        }
+cartajugadores jugadores[5][100]={};
+
+void repartir_cartas(carta mazo[5][25], int i, int cartasarepartir, cartajugadores jugadores[4][100]){
+    int fila = 0;
+    int col = 0;
+    
+    // Asigna n cartas(cartas a repartir) al jugador correspondiente (i)
+    for(int x=0; x < cartasarepartir; x++){
+
+        // Busca dos numeros aleatoreos para fila y columna de la matriz mazo hasta encontrar uno disponible
+        do{
+            fila = rand() % 5;
+            if(fila == 4){
+                col = rand() % 8;   
+            }else{
+                col = rand() % 25;
+            } 
+        } while(mazo[fila][col].estatus == false);
+
+        // Busca dentro de la matriz de jugadores donde ubicar la carta seleccionada  
+        if (i == 5){  //identifica la carta superior en juego
+            jugadores[i][0].filamazo = fila;
+            jugadores[i][0].colmazo = col;
+            mazo[fila][col].estatus=false;
+        }else{ //carta para los jugadores
+            for(int J =0; J<100;J++){
+                if(jugadores[i][J].filamazo == -1){
+                    jugadores[i][J].filamazo = fila;
+                    jugadores[i][J].colmazo = col;
+                    mazo[fila][col].estatus=false;
+                    break;
+                }     
+            }
+        }        
     }
-
-   
 }
 
-void mostrar_barajas(carta jugadores[4][100]){
-
-    for(int i =0; i<2; i++){
-        for(int z=0;z<7;z++){
-            cout<<jugadores[i][z].numero<<" ";
-            cout<<jugadores[i][z].color<<", ";
-        }
-        cout<<endl;
+int siguienteturno(int jugadoractual, int njugadores, int sentidoavance){
+    jugadoractual += sentidoavance;
+    if (jugadoractual < 0){
+        jugadoractual = njugadores-1;
+    }else if(jugadoractual >= njugadores){
+        jugadoractual -= njugadores;
     }
+    
 
-};
+}
+
+char menujugador(carta jugadores[5][100], int j){
+
+        for(int z=0;z<7;z++){
+            cout<<jugadores[j][z].numero<<" ";
+            cout<<jugadores[j][z].color<<", ";
+        }
+        char opj;
+        cout<<"R. robar   U.gritar uno    J.jugar"<< endl;
+        cin>> opj;
+
+        return opj;
+
+
+    };
+   
 
 int main(){
     std::srand(std::time(nullptr));
     int njugadores;
     int opcion;
+    int sentidoavance = 1;
+    bool ganador = false;
+
+    //Se inicializa la matriz jugadores
+    for (int i = 0; i < 5; i++){
+        for (int j = 0; j < 100; j++){
+            jugadores[i][j].filamazo = -1;
+            jugadores[i][j].colmazo = -1;
+        }
+        
+    }
+    
+    
     do{
 
         // Se llama la funcion menu 
@@ -144,23 +190,49 @@ int main(){
         // Se elige la opcion jugar
         if (opcion == 1){
   
+            //solicita numero de jugadores y verifica el rango permitido entre 2 y 4
             do{
                 
-                cout<<"¿cuantos jugadores quieren jugar?  "<<endl;
+                cout<<"¿cuantos jugadores quieren jugar (min 2, max 4)? "<<endl;
                 cin>> njugadores;
 
             }while(njugadores<2 || njugadores>4 );
 
+            //Define un arreglo tipo struct, y con una longitud del numero jugadores 
             registro usuarios [njugadores];
 
+            //Solicita el nombre de los jugadores y los guarda en el arreglo 
             for(int i=0; i<njugadores; i++){
-
                 cout<<"ingrese nombre del jugador   "<< i+1 <<endl;
                 cin>> usuarios[i].nombre;
-
             }
-            repartir_cartas(mazo, njugadores);
-             mostrar_barajas(jugadores);
+
+            //Se reparten de manera aleatoria las 7 cartas para cada jugador
+            for(int i=0; i < njugadores; i++){
+                repartir_cartas(mazo, i, 7, jugadores);
+            }
+
+            //Se selecciona la carta inicial de juego
+            repartir_cartas(mazo, 5, 1, jugadores);
+
+            
+            // Se inicia el juego
+            do{
+                //Recibe opcion jugador
+                char opj=menujugador();
+
+                if(opj==J){
+
+                }else if(opj==R){
+
+                    repartir_cartas(mazo, int posiciondeljugador, 1);
+
+                }
+
+                else if
+
+            }while(ganador=false);
+           
             
         }
         
