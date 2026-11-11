@@ -138,7 +138,7 @@ void repartir_cartas(carta mazo[5][25], int i, int cartasarepartir, cartajugador
     }
 }
 
-int siguienteturno(int jugadoractual, int njugadores, int sentidoavance){
+int siguienteturno(int jugadoractual, int njugadores, int &sentidoavance){
     jugadoractual += sentidoavance;
     if (jugadoractual < 0){
         jugadoractual = njugadores-1;
@@ -146,29 +146,52 @@ int siguienteturno(int jugadoractual, int njugadores, int sentidoavance){
         jugadoractual -= njugadores;
     }
     
+    //falta sentido avance
+    return jugadoractual;
 
 }
 
-char menujugador(carta jugadores[5][100], int j){
+char menujugador(cartajugadores jugadores[5][100], carta mazo[5][25], int jugadoract){
+    int x = 0;
+    int y = 0;
 
-        for(int z=0;z<7;z++){
-            cout<<jugadores[j][z].numero<<" ";
-            cout<<jugadores[j][z].color<<", ";
+    //muestra carta superior
+    x = jugadores[5][0].filamazo;
+    y = jugadores[5][0].colmazo;
+    
+    cout<<"Carta superior: "<<mazo[x][y].numero<<" "<<mazo[x][y].color <<" "<< mazo[x][y].tipo<<endl;
+
+    //Recorre la matriz de jugadores e imprime las cartas del jugador actual
+    cout<< "Cartas del jugador: "<<jugadoract<<endl;
+    for(int J = 0; J < 100; J++){
+
+        if(jugadores[jugadoract][J].filamazo != -1){
+            x = jugadores[jugadoract][J].filamazo;
+            y = jugadores[jugadoract][J].colmazo;
+
+            cout<< "carta: "<< J <<" "<< mazo[x][y].numero<<" "<<mazo[x][y].color <<" "<< mazo[x][y].tipo<<endl;
         }
-        char opj;
+    }
+
+    // muestra menu para que el jugador elija la opcion a seguir
+    char opj;
+    do{
         cout<<"R. robar   U.gritar uno    J.jugar"<< endl;
+        cout<<"Indique cual sera su accion a seguir (R, U, J): "<<endl;
         cin>> opj;
 
         return opj;
 
-
-    };
-   
+    } while (opj != 'R' && opj != 'U' && opj != 'J');
+    
+    
+}
 
 int main(){
     std::srand(std::time(nullptr));
     int njugadores;
     int opcion;
+    char opj;
     int sentidoavance = 1;
     bool ganador = false;
 
@@ -215,21 +238,26 @@ int main(){
             //Se selecciona la carta inicial de juego
             repartir_cartas(mazo, 5, 1, jugadores);
 
-            
+            int jugadoract = 0;
             // Se inicia el juego
             do{
+
                 //Recibe opcion jugador
-                char opj=menujugador();
+                opj=menujugador(jugadores, mazo, jugadoract);
 
-                if(opj==J){
+                if(opj == 'J'){
+                    cout<<"elijio j"<<endl;
+                    ganador = true;
+                }else if(opj == 'R'){
+                    cout<<"elijio r"<<endl;
+                     ganador = true;
+                    //repartir_cartas(mazo, int posiciondeljugador, 1);
 
-                }else if(opj==R){
-
-                    repartir_cartas(mazo, int posiciondeljugador, 1);
+                }else if(opj == 'U'){
+                    cout<<"elijio u"<<endl;
+                     ganador = true;
 
                 }
-
-                else if
 
             }while(ganador=false);
            
