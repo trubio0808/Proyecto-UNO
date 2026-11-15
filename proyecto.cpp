@@ -139,14 +139,24 @@ void repartir_cartas(carta mazo[5][25], int i, int cartasarepartir, cartajugador
 }
 
 int siguienteturno(int jugadoractual, int njugadores, int &sentidoavance){
+    
+    // Calcula el siguiente jugador sumando lo que tenga sentidoavance
     jugadoractual += sentidoavance;
-    if (jugadoractual < 0){
+    
+    if (jugadoractual < 0){ //Si el jugador resultante es menor a 0 se asigna el nuevo jugadoractual como el maximo 
         jugadoractual = njugadores-1;
-    }else if(jugadoractual >= njugadores){
+    }else if(jugadoractual >= njugadores){ // Si el jugador resultante es igual o mayor al maximo entonces el jugadoractual sera el primero
         jugadoractual -= njugadores;
     }
+
+    // Si se juega una carta salta, reversa, el sentidoavance se modifica 
+    if (sentidoavance == -2){
+        sentidoavance = -1;
+    }else if (sentidoavance == 2){
+        sentidoavance = 1;
+    }
+
     
-    //falta sentido avance
     return jugadoractual;
 
 }
@@ -169,7 +179,7 @@ char menujugador(cartajugadores jugadores[5][100], carta mazo[5][25], int jugado
             x = jugadores[jugadoract][J].filamazo;
             y = jugadores[jugadoract][J].colmazo;
 
-            cout<< "carta: "<< J <<" "<< mazo[x][y].numero<<" "<<mazo[x][y].color <<" "<< mazo[x][y].tipo<<endl;
+            cout<< "carta "<< J <<": "<< mazo[x][y].numero<<" "<<mazo[x][y].color <<" "<< mazo[x][y].tipo<<endl;
         }
     }
 
@@ -187,13 +197,32 @@ char menujugador(cartajugadores jugadores[5][100], carta mazo[5][25], int jugado
     
 }
 
+bool Analizarjugada( cartajugadores jugadores[5][100], cartajugadores jugada, carta mazo[5][25] ){
+    int x = jugadores[5][0].filamazo;
+    int y = jugadores[5][0].colmazo;
+    int F = jugada.filamazo;
+    int C = jugada.colmazo;  
+    bool jugable = false;  
+    if( mazo[F][C].color == mazo[x][y].color || mazo[F][C].numero == mazo[x][y].numero || mazo[F][C].numero == 11 ){
+        jugable = true;
+        return jugable;
+    }else{
+        return jugable;
+    }   
+}
+
+
 int main(){
     std::srand(std::time(nullptr));
     int njugadores;
     int opcion;
     char opj;
-    int sentidoavance = 1;
     bool ganador = false;
+    int carta;
+    cartajugadores jugada;
+    bool retorno = false;
+    int jugadoract = 0;
+    int sentidoavance = 1;
 
     //Se inicializa la matriz jugadores
     for (int i = 0; i < 5; i++){
@@ -238,24 +267,84 @@ int main(){
             //Se selecciona la carta inicial de juego
             repartir_cartas(mazo, 5, 1, jugadores);
 
-            int jugadoract = 0;
             // Se inicia el juego
             do{
 
-                //Recibe opcion jugador
+                //Imprime el menu del jugador y recibe su accion
                 opj=menujugador(jugadores, mazo, jugadoract);
 
-                if(opj == 'J'){
-                    cout<<"elijio j"<<endl;
-                    ganador = true;
+                if(opj == 'J'){  //Opcion jugar carta
+
+                    cout<<"¿Digite el numero de la carta a jugar?"<<endl;
+                    cin >> carta;
+
+                    jugada.filamazo = jugadores[jugadoract][carta].filamazo;
+                    jugada.colmazo = jugadores[jugadoract][carta].colmazo;
+
+                    retorno = Analizarjugada(jugadores, jugada,  mazo);   
+                    
+                    if (retorno == true){
+                        //carta superior pasa a estar disponible en el mazo para jugar
+                        int x = jugadores[5][0].filamazo;
+                        int y = jugadores[5][0].colmazo;
+                        mazo[x][y].estatus = true;
+    
+                        //carta jugada se asigna como carta superior
+                        jugadores[5][0]=jugadores[jugadoract][carta];
+
+                        //Evalua si es una carta de accion
+                        x = jugadores[5][0].filamazo;
+                        y = jugadores[5][0].colmazo;
+
+                        if (mazo[x][y].tipo == "+4"){ // Al siguiente jugador se le añaden 4 cartas, pierde turno y el jugardor que la jugo debe cambiar color
+
+                        }else if(mazo[x][y].tipo == "+2"){ // Al siguiente jugador se le añaden 2 cartas y pierde turno
+                            
+                            repartir_cartas(mazo, jugadoract + 1, 2, jugadores);
+                            sentidoavance *= 2;
+                            jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+
+                        }else if(mazo[x][y].tipo == "cambio color"){ //El jugardor que la jugo debe cambiar color 
+
+                        }else if(mazo[x][y].tipo == "reversa"){ //El sentido de juego cambia hacia la izquierda o hacia la derecha
+                            
+                            sentidoavance *= -1;
+                            jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+
+                        }else if(mazo[x][y].tipo == "salta"){ // El siguiente jugador pierde turno
+
+                            sentidoavance *= 2;
+                            jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+
+                        }else{ //La carta es normal, sigue el siguiente jugador
+                            
+                            sentidoavance *= 1;
+                            jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+                        }                  
+
+
+                        //Retira la carta jugada del arreglo del jugador reacomodando las cartas para eliminar la carta jugada            
+                        for (int y = carta + 1; y < 100; y++){
+                            if(jugadores[jugadoract][y].colmazo != -1){
+                                jugadores[jugadoract][y-1]=jugadores[jugadoract][y];
+                                jugadores[jugadoract][y].colmazo = -1;
+                                jugadores[jugadoract][y].filamazo = -1;
+                            }else{
+                                break;
+                            }
+                        }
+                        
+                    }else{
+
+                    }
+                                 
+                    
                 }else if(opj == 'R'){
-                    cout<<"elijio r"<<endl;
-                     ganador = true;
-                    //repartir_cartas(mazo, int posiciondeljugador, 1);
+                    repartir_cartas(mazo, i, 1, jugadores);
+                    
 
                 }else if(opj == 'U'){
-                    cout<<"elijio u"<<endl;
-                     ganador = true;
+                    
 
                 }
 
