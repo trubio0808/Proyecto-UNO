@@ -74,19 +74,19 @@ struct carta{
 carta mazo[5][25]={
  {{0, "azul","normal", true}, {1, "azul","normal",true},{2, "azul","normal",true}, {3, "azul","normal",true},{4, "azul","normal",true}, {5, "azul","normal",true}, {6, "azul","normal",true}, {7, "azul","normal",true}, {8, "azul","normal",true},
  {9, "azul","normal",true}, {1, "azul","normal",true},{2, "azul","normal",true}, {3, "azul","normal",true},{4, "azul","normal",true}, {5, "azul","normal",true}, {6, "azul","normal",true}, {7, "azul","normal",true}, {8, "azul","normal",true},{9, "azul","normal",true},
-  {10, "azul","+2",true}, {10, "azul","+2",true},{10, "azul","salta",true}, {10, "azul","reversa",true},{10, "azul","salta",true}, {10, "azul","reversa",true}},
+  {12, "azul","+2",true}, {12, "azul","+2",true},{13, "azul","salta",true}, {14, "azul","reversa",true},{13, "azul","salta",true}, {14, "azul","reversa",true}},
 
  {{0, "rojo","normal",true}, {1, "rojo","normal",true},{2, "rojo","normal",true}, {3, "rojo","normal",true},{4, "rojo","normal",true}, {5, "rojo","normal",true}, {6, "rojo","normal",true}, {7, "rojo","normal",true}, {8, "rojo","normal",true},
  {9, "rojo","normal",true}, {1, "rojo","normal",true},{2, "rojo","normal",true}, {3, "rojo","normal",true},{4, "rojo","normal",true}, {5, "rojo","normal",true}, {6, "rojo","normal",true}, {7, "rojo","normal",true}, {8, "rojo","normal",true},{9, "rojo","normal",true},
-  {10, "rojo","+2",true}, {10, "rojo","+2",true},{10, "rojo","salta",true}, {10, "rojo","reversa",true},{10, "rojo","salta",true}, {10, "rojo","reversa",true}},
+  {12, "rojo","+2",true}, {12, "rojo","+2",true},{13, "rojo","salta",true}, {14, "rojo","reversa",true},{13, "rojo","salta",true}, {14, "rojo","reversa",true}},
 
  {{0, "verde","normal",true}, {1, "verde","normal",true},{2, "verde","normal",true}, {3, "verde","normal",true},{4, "verde","normal",true}, {5, "verde","normal",true}, {6, "verde","normal",true}, {7, "verde","normal",true}, {8, "verde","normal",true},
  {9, "verde","normal",true}, {1, "verde","normal",true},{2, "verde","normal",true}, {3, "verde","normal",true},{4, "verde","normal",true}, {5, "verde","normal",true}, {6, "verde","normal",true}, {7, "verde","normal",true}, {8, "verde","normal",true},{9, "verde","normal",true},
-  {10, "verde","+2",true}, {10, "verde","+2",true},{10, "verde","salta",true}, {10, "verde","reversa",true},{10, "verde","salta",true}, {10, "verde","reversa",true}},
+  {12, "verde","+2",true}, {12, "verde","+2",true},{13, "verde","salta",true}, {14, "verde","reversa",true},{13, "verde","salta",true}, {14, "verde","reversa",true}},
 
  {{0, "amarillo","normal",true}, {1, "amarillo","normal",true},{2, "amarillo","normal",true}, {3, "amarillo","normal",true},{4, "amarillo","normal",true}, {5, "amarillo","normal",true}, {6, "amarillo","normal",true}, {7, "amarillo","normal",true}, {8, "amarillo","normal",true},
  {9, "amarillo","normal",true}, {1, "amarillo","normal",true},{2, "amarillo","normal",true}, {3, "amarillo","normal",true},{4, "amarillo","normal",true}, {5, "amarillo","normal",true}, {6, "amarillo","normal",true}, {7, "amarillo","normal",true}, {8, "amarillo","normal",true},{9, "amarillo","normal",true},
-  {10, "amarillo","+2",true}, {10, "amarillo","+2",true},{10, "amarillo","salta",true}, {10, "amarillo","reversa",true},{10, "amarillo","salta",true}, {10, "amarillo","reversa",true}},
+  {12, "amarillo","+2",true}, {12, "amarillo","+2",true},{13, "amarillo","salta",true}, {14, "amarillo","reversa",true},{13, "amarillo","salta",true}, {14, "amarillo","reversa",true}},
 
  {{11, "+ 4", "+4",true},{11, "+4", "+4",true},{11, "+4", "+4",true},{11, "+4", "+4",true}, {11, "cambio color", "cambio color",true},{11, "cambio color", "cambio color",true},{11, "cambio color", "cambio color",true},{11, "cambio color", "cambio color",true}}
 };
@@ -178,11 +178,14 @@ char menujugador(cartajugadores jugadores[5][100], carta mazo[5][25], int jugado
     //muestra carta superior
     x = jugadores[4][0].filamazo;
     y = jugadores[4][0].colmazo;
+
+    cout<<endl<<endl;
     
-    cout<<"Carta superior: "<<mazo[x][y].numero<<" "<<mazo[x][y].color <<" "<< mazo[x][y].tipo<<endl;
+    cout<<"CARTA SUPERIOR: "<<mazo[x][y].numero<<" "<<mazo[x][y].color <<" "<< mazo[x][y].tipo<<endl;
+    cout<<endl;
 
     //Recorre la matriz de jugadores e imprime las cartas del jugador actual
-    cout<< "Cartas del jugador: "<< nombrejug<<endl;
+    cout<< "CARTAS DEL JUGADOR: "<< nombrejug<<endl;
     for(int J = 0; J < 100; J++){
 
         if(jugadores[jugadoract][J].filamazo != -1){
@@ -196,15 +199,14 @@ char menujugador(cartajugadores jugadores[5][100], carta mazo[5][25], int jugado
     // muestra menu para que el jugador elija la opcion a seguir
     char opj;
     do{
-        cout<<"R. robar   U.gritar uno    J.jugar"<< endl;
-        cout<<"Indique cual sera su accion a seguir (R, U, J): "<<endl;
+        cout<<endl;
+        cout<<"R. Robar   U.Gritar UNO    J.Jugar   P.Pasar turno"<< endl;
+        cout<<"Indique cual sera su accion a seguir (R, U, J, P): "<<endl;
         cin>> opj;
 
-        return opj;
-
-    } while (opj != 'R' && opj != 'U' && opj != 'J');
+    } while (opj != 'R' && opj != 'U' && opj != 'J' && opj != 'P' && opj != 'r' && opj != 'u' && opj != 'j' && opj != 'p');
     
-    
+    return opj;
 }
 
 bool Analizarjugada( cartajugadores jugadores[5][100], cartajugadores jugada, carta mazo[5][25] ){
@@ -225,6 +227,8 @@ bool Analizarjugada( cartajugadores jugadores[5][100], cartajugadores jugada, ca
 
 void imprimir_resultados( registro usuarios[], int njugadores){
 
+    //Imprime los resultados al finalizar el juego
+
     for(int i=0; i < njugadores-1;i++){
         for(int z=0; z< njugadores-1;z++){
             if(usuarios[z].victorias>usuarios[z+1].victorias){
@@ -239,11 +243,12 @@ void imprimir_resultados( registro usuarios[], int njugadores){
         }
     }
 
+    cout <<"RESULTADOS FINALES: "<<endl;
 
     for(int i=0; i<njugadores; i++){
 
-        cout<< usuarios[i].nombre;
-        cout<< usuarios[i].victorias<<endl;
+        cout<< usuarios[i].nombre<<" -  ";
+        cout<<"Total victorias: "<< usuarios[i].victorias<<endl;
     }
 }
 
@@ -262,6 +267,9 @@ int main(){
     int jugadortemp;
     string nuevocolor;
     string nombrejug;
+    bool robar = false;
+    int contadorcartas = 0;
+    registro usuarios[5];
     
     //Se inicializa la matriz jugadores
     for (int i = 0; i < 5; i++){
@@ -289,9 +297,6 @@ int main(){
 
             }while(njugadores<2 || njugadores>4 );
 
-            //Define un arreglo tipo struct, y con una longitud del numero jugadores 
-            registro usuarios[njugadores];
-
             //Solicita el nombre de los jugadores y los guarda en el arreglo 
             for(int i=0; i<njugadores; i++){
                 cout<<"ingrese nombre del jugador   "<< i+1 <<endl;
@@ -312,7 +317,7 @@ int main(){
                 //Imprime el menu del jugador y recibe su accion
                 opj=menujugador(jugadores, mazo, jugadoract, nombrejug);
 
-                if(opj == 'J'){  //Opcion jugar carta
+                if(opj == 'J' || opj == 'j'){  //Opcion jugar carta
 
                     cout<<"¿Digite el numero de la carta a jugar?"<<endl;
                     cin >> carta;
@@ -331,22 +336,24 @@ int main(){
                         //carta jugada se asigna como carta superior
                         jugadores[4][0]=jugadores[jugadoract][carta];
 
-                        //Retira la carta jugada del arreglo del jugador reacomodando las cartas para eliminar la carta jugada            
+                        //Retira la carta jugada del arreglo del jugador reacomodando las cartas para eliminar la carta jugada                                    
                         for (int y = carta + 1; y < 100; y++){
                             if(jugadores[jugadoract][y].colmazo != -1){
                                 jugadores[jugadoract][y-1]=jugadores[jugadoract][y];
                                 jugadores[jugadoract][y].colmazo = -1;
                                 jugadores[jugadoract][y].filamazo = -1;
-                            }else{
+                            }else{ // Cuando la carta jugada es la ultima disponible se garantiza que se elimine de el arreglo 
+                                jugadores[jugadoract][y-1].colmazo = -1;
+                                jugadores[jugadoract][y-1].filamazo = -1;
                                 break;
                             }    
                         }
 
                         // Valida si el jugador gano contando los espacios disponibles cuando colmazo = -1 
-                        int contadorcartas = 0;
+                        contadorcartas = 0;
                         for(int i = 0; i < 100; i++){
                             if(jugadores[jugadoract][i].colmazo==-1){
-                                contadorcartas++;
+                                contadorcartas += 1;
                             }
                         }
                         if(contadorcartas==100){
@@ -388,6 +395,7 @@ int main(){
                             //Se salta un turno y se busca al siguiente jugador
                             sentidoavance *= 2;
                             jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+                            robar = false;
 
                         }else if(mazo[x][y].tipo == "+2"){ // Al siguiente jugador se le añaden 2 cartas y pierde turno
                             
@@ -398,6 +406,7 @@ int main(){
                             //Se salta un turno y se busca al siguiente jugador
                             sentidoavance *= 2;
                             jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+                            robar = false;
 
                         }else if(mazo[x][y].tipo == "cambio color"){ //El jugardor que la jugo debe cambiar color 
 
@@ -417,40 +426,85 @@ int main(){
                             mazo[4][24].numero = -1;
                             mazo[4][24].tipo = "nuevo color";
 
-                            jugadores[4][0].filamazo = 5;
-                            jugadores[4][0].colmazo = 25;
+                            jugadores[4][0].filamazo = 4;
+                            jugadores[4][0].colmazo = 24;
                             
+                            jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+                            robar = false;
 
                         }else if(mazo[x][y].tipo == "reversa"){ //El sentido de juego cambia hacia la izquierda o hacia la derecha
                             
                             sentidoavance *= -1;
                             jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+                            robar = false;
 
                         }else if(mazo[x][y].tipo == "salta"){ // El siguiente jugador pierde turno
 
                             sentidoavance *= 2;
                             jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+                            robar = false;
 
                         }else{ //La carta es normal, sigue el siguiente jugador
                             
                             sentidoavance *= 1;
                             jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+                            robar = false;
                         }                  
 
 
                         
-                    }else{ // FALTA CUANDO LA JUGADA NO SIRVE
+                    }else{
+                        cout<<endl;
+                        cout<<"------------------------------------------------------------------------"<<endl;
+                        cout<<"La carta jugada no es compatible con la carta superior. Intente de nuevo"<<endl;
+                        cout<<"------------------------------------------------------------------------"<<endl;
 
                     }
                                  
                     
-                }else if(opj == 'R'){
-                    repartir_cartas(mazo, jugadoract, 1, jugadores);
+                }else if(opj == 'R' || opj == 'r'){
+
+                    if (robar == false){
+                        robar = true;
+                        repartir_cartas(mazo, jugadoract, 1, jugadores);
+                        cout<<endl;
+                        cout <<"Robaste una carta"<<endl;  
+                    }else{
+                        cout<<"-----------------------------------------------------------------"<<endl;
+                        cout<<"No puedes robar mas cartas, si no te sirve ninguna PASA TURNO (P)"<<endl;
+                        cout<<"-----------------------------------------------------------------"<<endl<<endl;
+                    }
                     
+                }else if(opj == 'U'|| opj == 'u'){
+                    contadorcartas = 0;
+                    //Se cuentan el numero de espacios con -1 que indica que no hay cartas asignadas
+                    for(int i = 0; i < 100; i++){
+                        if(jugadores[jugadoract][i].colmazo==-1){
+                            contadorcartas +=1;
+                        }
+                        
+                    } //Valida que solo tenga una carta y habilita gritar uno
+                        if (contadorcartas < 99){
+                            cout<<"----------------------------------------------"<<endl;
+                            cout<<"Tienes mas de una carta, no puedes gritar UNO"<<endl;
+                            cout<<"---------------------------------------------"<<endl<<endl;
+                        }else{
+                            cout<<"-----------------------------------------------------------------"<<endl;
+                            cout<<"UNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"<<endl;
+                            cout<<"-----------------------------------------------------------------"<<endl<<endl;
+                        }
 
-                }else if(opj == 'U'){
-                    // FALTA GRITAR UNO
-
+                }else if(opj == 'P'|| opj == 'p'){
+                    if(robar == true){
+                        sentidoavance *= 1;
+                        jugadoract = siguienteturno(jugadoract, njugadores, sentidoavance);
+                        robar = false;
+                    }else{
+                        cout<<"----------------------------------------------------------------------------------"<<endl;
+                        cout<<"Solo puedes usar la opcion pasar turno cuando hayas robado una carta en este turno"<<endl;
+                        cout<<"----------------------------------------------------------------------------------"<<endl;
+                    }
+                    
                 }
 
             }while(ganador==false);
@@ -460,6 +514,7 @@ int main(){
         
         // Se elige la opcion salir
         if(opcion == 2){
+            imprimir_resultados( usuarios,njugadores);
             break;
         }
 
