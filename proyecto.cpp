@@ -227,11 +227,10 @@ bool Analizarjugada( cartajugadores jugadores[5][100], cartajugadores jugada, ca
 
 void imprimir_resultados( registro usuarios[], int njugadores){
 
-    //Imprime los resultados al finalizar el juego
-
+    //Organiza el arreglo usuarios por el numero de victorias de mayor a menor
     for(int i=0; i < njugadores-1;i++){
         for(int z=0; z< njugadores-1;z++){
-            if(usuarios[z].victorias>usuarios[z+1].victorias){
+            if(usuarios[z].victorias < usuarios[z+1].victorias){
                 int temp =usuarios[z].victorias;
                 usuarios[z].victorias=usuarios[z+1].victorias;
                 usuarios[z+1].victorias=temp;
@@ -243,6 +242,7 @@ void imprimir_resultados( registro usuarios[], int njugadores){
         }
     }
 
+    //Imprime los resultados ya en orden descendente
     cout <<"RESULTADOS FINALES: "<<endl;
 
     for(int i=0; i<njugadores; i++){
@@ -357,7 +357,7 @@ int main(){
                             }
                         }
                         if(contadorcartas==100){
-                            cout<<"felicitaciones "<<usuarios[jugadoract].nombre<< "ganaste";
+                            cout<<"FELICITACIONES "<<usuarios[jugadoract].nombre<< " GANASTE LA RONDA"<<endl<<endl;
                             usuarios[jugadoract].victorias +=1;
                             ganador=true;
                         }
